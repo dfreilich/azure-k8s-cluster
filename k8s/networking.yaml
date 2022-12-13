@@ -1,0 +1,33 @@
+apiVersion: networking.k8s.io/v1beta1
+kind: Ingress
+metadata:
+  name: ingress-controller
+spec:
+  rules:
+    - host: xxx
+      http:
+        paths:
+          - path: /service-a
+            backend:
+              serviceName: service-a
+              servicePort: 80
+          - path: /service-b
+            backend:
+              serviceName: service-b
+              servicePort: 80
+---
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: deny-service-a-service-b
+spec:
+  podSelector:
+    matchLabels:
+      app: service-a
+  ingress:
+    - from:
+        - podSelector:
+            matchLabels:
+              app: service-b
+  policyTypes:
+  - Ingress
