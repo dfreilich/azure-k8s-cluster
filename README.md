@@ -1,3 +1,5 @@
+[![Build](https://github.com/dfreilich/azure-k8s-cluster/actions/workflows/build.yml/badge.svg)](https://github.com/dfreilich/azure-k8s-cluster/actions/workflows/build.yml)
+
 # azure-k8s-cluster
 Repo used to generate Azure K8s Cluster
 
