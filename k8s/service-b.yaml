@@ -16,7 +16,8 @@ spec:
     spec:
       containers:
       - name: service-b
-        image: docker.io/dfreilich/azure-service-b
+        image: docker.io/dfreilich/azure-k8s-service
+        command: ["service-b"]
         env:
         - name: "PORT"
           value: "8080"

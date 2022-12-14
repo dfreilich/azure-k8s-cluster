@@ -18,7 +18,7 @@ var (
 )
 
 func main() {
-	log.Print("Starting service B...")
+	log.Print("Starting service A...")
 	// Getting correct port
 	if env := os.Getenv(portEnv); env != "" {
 		port = env
@@ -37,6 +37,11 @@ func main() {
 	}()
 	log.Printf("The service is ready to listen and serve on port %s", port)
 
+	go func() {
+		log.Fatal(printBitcoinInLoop())
+	}()
+	log.Printf("Printing Bitcoin")
+
 	killSignal := <-interrupt
 	switch killSignal {
 	case os.Interrupt:
@@ -53,7 +58,7 @@ func main() {
 func getHandler() http.Handler {
 	r := mux.NewRouter()
 	r.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
-		fmt.Fprint(w, "Hello World from Service B!")
+		fmt.Fprint(w, "Hello World from Service A!")
 	})
 
 	// Liveness check endpoint

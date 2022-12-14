@@ -1,0 +1,10 @@
+[project]
+id = "io.dfreilich.k8s-aws-app"
+name = "K8s Azure App"
+version = "1.0.0"
+
+
+[ build ]
+  [[ build.env ]]
+    name="BP_GO_TARGETS"
+    value="./service-a:./service-b"
