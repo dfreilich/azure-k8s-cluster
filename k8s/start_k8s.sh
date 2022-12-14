@@ -22,3 +22,8 @@ helm install kubernetes-ingress haproxytech/kubernetes-ingress \
     --create-namespace \
     --namespace haproxy-controller \
     --set controller.service.type=LoadBalancer
+
+# Apply Services and Networking
+kubectl apply -f service-a.yaml
+kubectl apply -f service-b.yaml
+kubectl apply -f networking.yaml

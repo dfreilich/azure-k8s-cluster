@@ -1,41 +1,24 @@
 apiVersion: networking.k8s.io/v1
-kind: Ingress
+kind: NetworkPolicy
 metadata:
-  name: ingress-controller
-  annotations:
-    ingress.class: "haproxy"
-    kubernetes.io/ingress.class: haproxy
-    # kubernetes.io/ingress.class: ingress-nginx
-    # nginx.ingress.kubernetes.io/proxy-connect-timeout: "180"
-    # nginx.ingress.kubernetes.io/proxy-read-timeout: "180"
-    # nginx.ingress.kubernetes.io/proxy-send-timeout: "180"
+  name: deny-service-a-service-b
 spec:
-  # ingressClassName: nginx
-  rules:
-  - http:
-      paths:
-      - path: /service-b
-        pathType: Exact
-        backend:
-          service:
-            # serviceName: web
-            # servicePort: 80
-            name: service-b
-            port:
-              number: 6000
-# ---
-# apiVersion: networking.k8s.io/v1
-# kind: NetworkPolicy
-# metadata:
-#   name: deny-service-a-service-b
-# spec:
-#   podSelector:
-#     matchLabels:
-#       app: service-a
-#   ingress:
-#     - from:
-#         - podSelector:
-#             matchLabels:
-#               app: service-b
-#   policyTypes:
-#   - Ingress
+  podSelector:
+    matchLabels:
+      app: service-a
+  ingress:
+    - from:
+        - podSelector:
+            matchLabels:
+              app: service-b
+  policyTypes:
+  - Ingress
+---
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: default-deny-ingress
+spec:
+  podSelector: {}
+  policyTypes:
+  - Ingress
