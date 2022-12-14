@@ -1,0 +1,67 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: service-b
+  name: service-b
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: service-b
+  template:
+    metadata:
+      labels:
+        app: service-b
+    spec:
+      containers:
+      - name: service-b
+        image: docker.io/dfreilich/azure-service-b
+        env:
+        - name: "PORT"
+          value: "8080"
+        ports:
+        - containerPort: 8080
+        readinessProbe:
+          httpGet:
+            path: /readyz
+            port: 8080
+          initialDelaySeconds: 5
+          periodSeconds: 5
+          successThreshold: 1
+        livenessProbe:
+          httpGet:
+            path: /healthz
+            port: 8080
+---
+apiVersion: v1
+kind: Service
+metadata:
+    name: service-b
+spec:
+    selector:
+      app: service-b
+    ports:
+    - name: http
+      protocol: TCP
+      port: 8080
+      targetPort: 8080
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+    name: service-b-ingress
+    annotations:
+        haproxy.org/path-rewrite: "/"
+        kubernetes.io/ingress.class: haproxy
+spec:
+    rules:
+    - http:
+        paths:
+        - path: /service-b
+          pathType: Prefix
+          backend:
+            service:
+              name: service-b
+              port:
+                number: 8080

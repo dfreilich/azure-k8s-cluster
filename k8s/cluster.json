@@ -8,6 +8,7 @@
       "distro": "ubuntu-18.04"
     },
     "orchestratorProfile": {
+      "orchestratorVersion": "1.23.1",
       "kubernetesConfig": {
         "enableRbac": true
       }

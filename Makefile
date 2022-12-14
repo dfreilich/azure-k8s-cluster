@@ -3,3 +3,6 @@ install:
 
 test:
 	go test ./... -v
+
+containerize:
+	pack build dfreilich/azure-k8s/service-b --builder paketobuildpacks/builder:tiny --env BP_GO_TARGETS="./service-b"
