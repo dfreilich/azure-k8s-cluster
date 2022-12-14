@@ -23,7 +23,8 @@ func TestIndexEndpoint(t *testing.T) {
 	require.NoError(t, resp.Body.Close())
 	require.NoError(t, err)
 
-	require.Equal(t, string(greeting), "Hello World from Service A!")
+	require.Contains(t, string(greeting), "Hello World from Service A!")
+	require.Contains(t, string(greeting), "Current Bitcoin Price (in Euro) is:")
 }
 
 func TestHealthzEndpoint(t *testing.T) {

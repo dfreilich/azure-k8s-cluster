@@ -38,7 +38,7 @@ func main() {
 	log.Printf("The service is ready to listen and serve on port %s", port)
 
 	go func() {
-		log.Fatal(printBitcoinInLoop())
+		log.Fatal(printBitcoinAndAverage())
 	}()
 	log.Printf("Printing Bitcoin")
 
@@ -59,6 +59,9 @@ func getHandler() http.Handler {
 	r := mux.NewRouter()
 	r.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
 		fmt.Fprint(w, "Hello World from Service A!")
+		if curPrice, err := getBitcoinEuro(); err == nil {
+			fmt.Fprintf(w, "\nCurrent Bitcoin Price (in Euro) is: %.2f", curPrice)
+		}
 	})
 
 	// Liveness check endpoint
