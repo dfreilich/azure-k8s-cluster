@@ -1,4 +1,4 @@
 #!/bin/bash
 
-az group list | jq '.[].name' | xargs -I {} az group delete --resource-group {} --yes
+az group delete --resource-group  dfreilich-interview --yes
 rm -rf _output/ translations/
